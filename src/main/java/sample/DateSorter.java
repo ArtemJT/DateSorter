@@ -2,7 +2,9 @@ package sample;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Marking will be based upon producing a readable, well engineered solution rather than factors
@@ -42,7 +44,12 @@ public class DateSorter {
      * @return the collection of dates now sorted as per the spec
      */
     public Collection<LocalDate> sortDates(List<LocalDate> unsortedDates) {
-        // your solution here
-
+        Stream<LocalDate> datesWithR = unsortedDates.stream()
+                .filter(date -> date.getMonth().name().toLowerCase().contains("r"))
+                .sorted();
+        Stream<LocalDate> datesWithoutR = unsortedDates.stream()
+                .filter(date -> !date.getMonth().name().toLowerCase().contains("r"))
+                .sorted(Comparator.reverseOrder());
+        return Stream.concat(datesWithR, datesWithoutR).toList();
     }
 }
