@@ -2,6 +2,7 @@ package sample;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
@@ -44,12 +45,15 @@ public class DateSorter {
      * @return the collection of dates now sorted as per the spec
      */
     public Collection<LocalDate> sortDates(List<LocalDate> unsortedDates) {
-        Stream<LocalDate> datesWithR = unsortedDates.stream()
-                .filter(date -> date.getMonth().name().toLowerCase().contains("r"))
-                .sorted();
-        Stream<LocalDate> datesWithoutR = unsortedDates.stream()
-                .filter(date -> !date.getMonth().name().toLowerCase().contains("r"))
-                .sorted(Comparator.reverseOrder());
-        return Stream.concat(datesWithR, datesWithoutR).toList();
+        if (unsortedDates != null && !unsortedDates.isEmpty()) {
+            Stream<LocalDate> datesWithR = unsortedDates.stream()
+                    .filter(date -> date.getMonth().name().toLowerCase().contains("r"))
+                    .sorted();
+            Stream<LocalDate> datesWithoutR = unsortedDates.stream()
+                    .filter(date -> !date.getMonth().name().toLowerCase().contains("r"))
+                    .sorted(Comparator.reverseOrder());
+            return Stream.concat(datesWithR, datesWithoutR).toList();
+        }
+        return Collections.emptyList();
     }
 }
